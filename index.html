@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="A simple build meeting attendance tracker for FTC teams."
+    />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23c8f169'/%3E%3Cpath d='M18 16h28v8H26v8h16v8H26v8h20v8H18z' fill='%23101923'/%3E%3C/svg%3E" />
+    <link rel="stylesheet" href="/styles.css" />
+    <title>FTC Build Meetings</title>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="FTC Build Meetings home">
+        <span class="brand-mark">FTC</span>
+        <span class="brand-name">BUILD MEETINGS</span>
+      </a>
+      <div class="topbar-status"><span class="status-dot"></span>Team board</div>
+    </header>
+
+    <main class="app-shell">
+      <section class="page-intro" aria-labelledby="page-title">
+        <div>
+          <p class="eyebrow">Attendance board</p>
+          <h1 id="page-title">Keep the shop moving.</h1>
+          <p class="intro-copy">Log the time you put in. See the streaks that keep the robot on track.</p>
+        </div>
+        <div class="week-chip">
+          <span class="chip-label">This week</span>
+          <strong id="weekLabel">Loading week…</strong>
+        </div>
+      </section>
+
+      <div id="modeBanner" class="mode-banner" role="status" hidden></div>
+      <div id="errorBanner" class="error-banner" role="alert" hidden></div>
+
+      <section class="workspace-grid" aria-label="Build meeting tracker">
+        <aside class="left-column">
+          <section class="panel log-panel" aria-labelledby="log-title">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">Quick entry</p>
+                <h2 id="log-title">Log a build session</h2>
+              </div>
+              <span class="panel-number">01</span>
+            </div>
+
+            <form id="logForm" class="log-form">
+              <label class="field-label" for="memberSelect">Who are you?</label>
+              <select id="memberSelect" class="control" required>
+                <option value="">Loading teammates…</option>
+              </select>
+
+              <div class="field-row">
+                <div>
+                  <label class="field-label" for="entryDate">Date</label>
+                  <input id="entryDate" class="control" type="date" required />
+                </div>
+                <div>
+                  <label class="field-label" for="hoursInput">Hours</label>
+                  <div class="hours-control">
+                    <input id="hoursInput" class="control" type="number" min="0.25" max="24" step="0.25" placeholder="2.00" required />
+                    <span>hrs</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="quick-hours" id="quickHours" aria-label="Quick hour amounts">
+                <button type="button" class="quick-hour" data-hours="1">1 hr</button>
+                <button type="button" class="quick-hour" data-hours="2">2 hrs</button>
+                <button type="button" class="quick-hour" data-hours="3">3 hrs</button>
+                <button type="button" class="quick-hour" data-hours="4">4 hrs</button>
+              </div>
+
+              <button class="primary-button" type="submit">
+                <span>Save session</span>
+                <span class="button-arrow" aria-hidden="true">↗</span>
+              </button>
+              <p id="logStatus" class="form-status" role="status" aria-live="polite"></p>
+            </form>
+          </section>
+
+          <section class="panel roster-panel" aria-labelledby="roster-title">
+            <div class="panel-heading compact-heading">
+              <div>
+                <p class="eyebrow">The crew</p>
+                <h2 id="roster-title">Team roster</h2>
+              </div>
+              <span class="panel-number">02</span>
+            </div>
+            <ul id="rosterList" class="roster-list" aria-label="Team members"></ul>
+            <form id="addMemberForm" class="add-member-form">
+              <label class="sr-only" for="newMemberName">New teammate name</label>
+              <input id="newMemberName" class="control" type="text" maxlength="80" placeholder="Add teammate" required />
+              <button class="secondary-button" type="submit" aria-label="Add teammate">+</button>
+            </form>
+          </section>
+        </aside>
+
+        <section class="dashboard-column" aria-labelledby="dashboard-title" aria-busy="false">
+          <div class="dashboard-heading">
+            <div>
+              <p class="eyebrow">Personal dashboard</p>
+              <h2 id="dashboard-title"><span id="dashboardMemberName">Your</span> build time</h2>
+            </div>
+            <span id="modePill" class="mode-pill">Connecting…</span>
+          </div>
+
+          <div class="stats-grid" aria-label="Summary statistics">
+            <article class="stat-card stat-card-lime">
+              <span class="stat-label">Today</span>
+              <strong id="todayHours" class="stat-value">—</strong>
+              <span id="todayCaption" class="stat-caption">Loading…</span>
+            </article>
+            <article class="stat-card stat-card-blue">
+              <span class="stat-label">This week</span>
+              <strong id="weekHours" class="stat-value">—</strong>
+              <span id="weekCaption" class="stat-caption">Monday to today</span>
+            </article>
+            <article class="stat-card stat-card-orange">
+              <span class="stat-label">Current streak</span>
+              <strong id="currentStreak" class="stat-value">—</strong>
+              <span class="stat-caption">days in a row</span>
+            </article>
+            <article class="stat-card stat-card-dark">
+              <span class="stat-label">Best streak</span>
+              <strong id="bestStreak" class="stat-value">—</strong>
+              <span class="stat-caption">days logged</span>
+            </article>
+          </div>
+
+          <div class="charts-grid">
+            <section class="panel chart-panel daily-panel" aria-labelledby="daily-title">
+              <div class="chart-heading">
+                <div>
+                  <p class="eyebrow">Last seven days</p>
+                  <h3 id="daily-title">Daily time</h3>
+                </div>
+                <span class="chart-unit">hours</span>
+              </div>
+              <div id="dailyChart" class="daily-chart" aria-label="Daily hours chart"></div>
+            </section>
+
+            <section class="panel chart-panel weekly-panel" aria-labelledby="weekly-title">
+              <div class="chart-heading">
+                <div>
+                  <p class="eyebrow">Weekly view</p>
+                  <h3 id="weekly-title">Build rhythm</h3>
+                </div>
+                <span class="chart-unit">8 weeks</span>
+              </div>
+              <div id="weeklyChart" class="weekly-chart" aria-label="Weekly hours chart"></div>
+            </section>
+          </div>
+
+          <section class="panel recent-panel" aria-labelledby="recent-title">
+            <div class="chart-heading">
+              <div>
+                <p class="eyebrow">Latest entries</p>
+                <h3 id="recent-title">Recent build sessions</h3>
+              </div>
+              <span class="chart-unit">newest first</span>
+            </div>
+            <div id="recentList" class="recent-list"></div>
+          </section>
+        </section>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>FTC build meeting tracker</span>
+      <span class="footer-mark">DESIGN • BUILD • ITERATE</span>
+    </footer>
+
+    <script type="module" src="/dist-client/main.js"></script>
+  </body>
+</html>

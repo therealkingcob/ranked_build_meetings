@@ -1,0 +1,10 @@
+import { neon } from "@neondatabase/serverless";
+
+let sqlClient: ReturnType<typeof neon> | null = null;
+
+export function getSql(): ReturnType<typeof neon> | null {
+  const connectionString = process.env.DATABASE_URL;
+  if (!connectionString) return null;
+  sqlClient ??= neon(connectionString);
+  return sqlClient;
+}
