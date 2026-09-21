@@ -26,7 +26,7 @@ export default async function handler(req: ApiRequest, res: ApiResponse): Promis
   }
 
   const roundedHours = Math.round(hours * 100) / 100;
-  const sql = getSql();
+  const sql = await getSql();
 
   try {
     if (!sql) {

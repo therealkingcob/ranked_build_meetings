@@ -1,10 +1,14 @@
-import { neon } from "@neondatabase/serverless";
+type SqlClient = (strings: TemplateStringsArray, ...values: unknown[]) => Promise<unknown[]>;
 
-let sqlClient: ReturnType<typeof neon> | null = null;
+let sqlClient: SqlClient | null = null;
 
-export function getSql(): ReturnType<typeof neon> | null {
+export async function getSql(): Promise<SqlClient | null> {
   const connectionString = process.env.DATABASE_URL;
   if (!connectionString) return null;
-  sqlClient ??= neon(connectionString);
+
+  if (!sqlClient) {
+    const { neon } = await import("@neondatabase/serverless");
+    sqlClient = neon(connectionString) as unknown as SqlClient;
+  }
   return sqlClient;
 }

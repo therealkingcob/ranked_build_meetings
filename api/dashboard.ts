@@ -15,7 +15,7 @@ export default async function handler(req: ApiRequest, res: ApiResponse): Promis
   }
 
   const requestedMemberId = Number(queryString(req, "memberId"));
-  const sql = getSql();
+  const sql = await getSql();
 
   try {
     const members = sql ? ((await sql`SELECT id, name FROM team_members ORDER BY name ASC`) as MemberRow[]) : getDemoMembers();

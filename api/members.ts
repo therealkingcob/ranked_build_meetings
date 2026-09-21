@@ -6,7 +6,7 @@ type MemberRow = { id: number; name: string };
 
 export default async function handler(req: ApiRequest, res: ApiResponse): Promise<void> {
   if (!allowMethods(req, res, ["GET", "POST"])) return;
-  const sql = getSql();
+  const sql = await getSql();
 
   try {
     if (req.method === "GET") {
