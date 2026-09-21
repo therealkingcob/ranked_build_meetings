@@ -1,4 +1,4 @@
-import { addDays, todayIso } from "./date";
+import { addDays, todayIso } from "./date.js";
 
 export type DemoMember = { id: number; name: string };
 export type DemoLog = { id: number; member_id: number; meeting_date: string; hours: number };

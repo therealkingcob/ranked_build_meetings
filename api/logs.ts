@@ -1,7 +1,7 @@
-import { getDemoMembers, upsertDemoLog } from "../server/demo";
-import { getSql } from "../server/db";
-import { isValidIsoDate, todayIso } from "../server/date";
-import { allowMethods, ApiRequest, ApiResponse, bodyObject, sendError } from "../server/http";
+import { getDemoMembers, upsertDemoLog } from "../server/demo.js";
+import { getSql } from "../server/db.js";
+import { isValidIsoDate, todayIso } from "../server/date.js";
+import { allowMethods, ApiRequest, ApiResponse, bodyObject, sendError } from "../server/http.js";
 
 type LogRow = { id: number; member_id: number; meeting_date: string; hours: number };
 

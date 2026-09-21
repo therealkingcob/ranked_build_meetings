@@ -1,6 +1,6 @@
-import { addDemoMember, getDemoMembers } from "../server/demo";
-import { getSql } from "../server/db";
-import { allowMethods, ApiRequest, ApiResponse, bodyObject, sendError } from "../server/http";
+import { addDemoMember, getDemoMembers } from "../server/demo.js";
+import { getSql } from "../server/db.js";
+import { allowMethods, ApiRequest, ApiResponse, bodyObject, sendError } from "../server/http.js";
 
 type MemberRow = { id: number; name: string };
 

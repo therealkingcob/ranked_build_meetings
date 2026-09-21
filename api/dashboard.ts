@@ -1,7 +1,7 @@
-import { getDemoLogs, getDemoMembers } from "../server/demo";
-import { getSql } from "../server/db";
-import { addDays, formatLabel, formatShortLabel, isValidIsoDate, startOfWeek, todayIso } from "../server/date";
-import { allowMethods, ApiRequest, ApiResponse, queryString, sendError } from "../server/http";
+import { getDemoLogs, getDemoMembers } from "../server/demo.js";
+import { getSql } from "../server/db.js";
+import { addDays, formatLabel, formatShortLabel, isValidIsoDate, startOfWeek, todayIso } from "../server/date.js";
+import { allowMethods, ApiRequest, ApiResponse, queryString, sendError } from "../server/http.js";
 
 type MemberRow = { id: number; name: string };
 type LogRow = { id: number; meeting_date: string; hours: number };
