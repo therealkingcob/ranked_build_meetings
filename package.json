@@ -4,7 +4,7 @@
   "private": true,
   "description": "A simple FTC build meeting attendance tracker for Vercel and Neon.",
   "scripts": {
-    "build": "tsc --project tsconfig.json",
+    "build": "tsc --project tsconfig.frontend.json",
     "dev": "vercel dev"
   },
   "dependencies": {
