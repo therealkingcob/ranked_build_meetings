@@ -8,8 +8,18 @@ The app is intentionally framework-free: HTML and CSS for the interface, TypeScr
 
 1. Import this folder into a Vercel project.
 2. Add a Neon integration or set a Vercel environment variable named `DATABASE_URL` to the Neon connection string.
-3. Open the Neon SQL Editor and run [`schema.sql`](./schema.sql) once.
-4. Deploy. The Vercel build command is `npm run build`.
+3. Deploy. The first database request creates the tables and seeds the roster from [`schema.sql`](./schema.sql).
+4. The Vercel Cron route `/api/discord-weekly` runs each Saturday evening Pacific time (the cron schedule is UTC) and posts the most and least attendance to Discord.
+
+### Discord weekly report
+
+Create a Discord webhook for the channel that should receive the report, then add these Vercel environment variables for Production and Preview:
+
+- `DISCORD_WEBHOOK_URL`: the Discord webhook URL.
+- `CRON_SECRET`: a long random value. Vercel sends it to the cron route as a bearer token.
+- `REPORT_TIME_ZONE`: optional IANA timezone; defaults to `America/Los_Angeles`.
+
+Attendance is ranked by days logged from Monday through the report date, with total hours shown beside each name. The schedule `0 1 * * 0` is 6:00 PM Pacific during daylight time and 5:00 PM Pacific during standard time. Push a new deployment after adding the variables.
 
 For local development, install dependencies, set `DATABASE_URL` in a local `.env`, then run `npm run dev` with the Vercel CLI. If `DATABASE_URL` is not present, the app uses clearly labeled demo data so the interface can still be previewed; demo entries are not durable.
 

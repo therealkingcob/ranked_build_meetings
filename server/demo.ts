@@ -4,9 +4,14 @@ export type DemoMember = { id: number; name: string };
 export type DemoLog = { id: number; member_id: number; meeting_date: string; hours: number };
 
 const members: DemoMember[] = [
-  { id: 1, name: "Alex Rivera" },
-  { id: 2, name: "Jordan Lee" },
-  { id: 3, name: "Maya Patel" },
+  { id: 1, name: "Rishi" },
+  { id: 2, name: "Claire" },
+  { id: 3, name: "Howell" },
+  { id: 4, name: "Cyrus" },
+  { id: 5, name: "Lino" },
+  { id: 6, name: "Shaan" },
+  { id: 7, name: "Tristan" },
+  { id: 8, name: "Lylia" },
 ];
 
 const logs: DemoLog[] = [];

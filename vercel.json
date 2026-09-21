@@ -1,4 +1,10 @@
 {
   "buildCommand": "npm run build",
-  "outputDirectory": "."
+  "outputDirectory": ".",
+  "crons": [
+    {
+      "path": "/api/discord-weekly",
+      "schedule": "0 1 * * 0"
+    }
+  ]
 }

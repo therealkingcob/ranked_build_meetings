@@ -42,8 +42,17 @@ function ensureSchema(sql: SqlClient): Promise<void> {
           ON meeting_logs (member_id, meeting_date DESC)
       `;
       await sql`
+        DELETE FROM team_members AS old_member
+        WHERE old_member.name IN ('Alex Rivera', 'Jordan Lee', 'Maya Patel')
+          AND NOT EXISTS (
+            SELECT 1
+            FROM meeting_logs
+            WHERE meeting_logs.member_id = old_member.id
+          )
+      `;
+      await sql`
         INSERT INTO team_members (name)
-        VALUES ('Alex Rivera'), ('Jordan Lee'), ('Maya Patel')
+        VALUES ('Rishi'), ('Claire'), ('Howell'), ('Cyrus'), ('Lino'), ('Shaan'), ('Tristan'), ('Lylia')
         ON CONFLICT (name) DO NOTHING
       `;
     })().catch((error) => {

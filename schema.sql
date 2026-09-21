@@ -20,5 +20,5 @@ CREATE INDEX IF NOT EXISTS meeting_logs_member_date_idx
   ON meeting_logs (member_id, meeting_date DESC);
 
 INSERT INTO team_members (name)
-VALUES ('Alex Rivera'), ('Jordan Lee'), ('Maya Patel')
+VALUES ('Rishi'), ('Claire'), ('Howell'), ('Cyrus'), ('Lino'), ('Shaan'), ('Tristan'), ('Lylia')
 ON CONFLICT (name) DO NOTHING;

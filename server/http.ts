@@ -2,6 +2,7 @@ export interface ApiRequest {
   method?: string;
   body?: unknown;
   query?: Record<string, unknown>;
+  headers?: Record<string, string | string[] | undefined>;
 }
 
 export interface ApiResponse {
