@@ -43,7 +43,7 @@ function ensureSchema(sql: SqlClient): Promise<void> {
       `;
       await sql`
         DELETE FROM team_members AS old_member
-        WHERE old_member.name IN ('Alex Rivera', 'Jordan Lee', 'Maya Patel')
+        WHERE old_member.name NOT IN ('Rishi', 'Claire', 'Howell', 'Cyrus', 'Lino', 'Shaan', 'Tristan', 'Lylia')
           AND NOT EXISTS (
             SELECT 1
             FROM meeting_logs
