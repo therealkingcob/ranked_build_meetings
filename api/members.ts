@@ -6,9 +6,9 @@ type MemberRow = { id: number; name: string };
 
 export default async function handler(req: ApiRequest, res: ApiResponse): Promise<void> {
   if (!allowMethods(req, res, ["GET", "POST"])) return;
-  const sql = await getSql();
 
   try {
+    const sql = await getSql();
     if (req.method === "GET") {
       if (!sql) {
         res.status(200).json({ members: getDemoMembers(), dataSource: "demo" });

@@ -15,9 +15,9 @@ export default async function handler(req: ApiRequest, res: ApiResponse): Promis
   }
 
   const requestedMemberId = Number(queryString(req, "memberId"));
-  const sql = await getSql();
 
   try {
+    const sql = await getSql();
     const members = sql ? ((await sql`SELECT id, name FROM team_members ORDER BY name ASC`) as MemberRow[]) : getDemoMembers();
     const memberId = Number.isInteger(requestedMemberId) && requestedMemberId > 0 ? requestedMemberId : Number(members[0]?.id);
     const member = members.find((item) => Number(item.id) === memberId);

@@ -26,9 +26,9 @@ export default async function handler(req: ApiRequest, res: ApiResponse): Promis
   }
 
   const roundedHours = Math.round(hours * 100) / 100;
-  const sql = await getSql();
 
   try {
+    const sql = await getSql();
     if (!sql) {
       if (!getDemoMembers().some((member) => member.id === memberId)) {
         sendError(res, 404, "That teammate is not on the roster.");
