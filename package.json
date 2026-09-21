@@ -2,6 +2,7 @@
   "name": "ftc-build-meeting-tracker",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "description": "A simple FTC build meeting attendance tracker for Vercel and Neon.",
   "scripts": {
     "build": "tsc --project tsconfig.frontend.json",
