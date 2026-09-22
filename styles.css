@@ -469,6 +469,102 @@ select.control {
   border-color: rgba(152, 212, 239, 0.2);
 }
 
+.leaderboard-panel {
+  margin-bottom: 18px;
+  padding: 22px;
+  color: var(--ink);
+  background: var(--paper);
+  border-radius: 7px 7px 24px 7px;
+  box-shadow: var(--shadow);
+}
+
+.leaderboard-heading {
+  margin-bottom: 16px;
+}
+
+.source-link {
+  color: #5a6e67;
+  text-decoration: none;
+}
+
+.source-link:hover {
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.leaderboard-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.leaderboard-card {
+  display: flex;
+  min-height: 143px;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 17px;
+  border-radius: 5px 5px 18px 5px;
+}
+
+.leaderboard-card-week {
+  background: var(--lime);
+}
+
+.leaderboard-card-comp {
+  color: var(--paper);
+  background: var(--ink-soft);
+}
+
+.leaderboard-card-comp .stat-label,
+.leaderboard-card-comp .leaderboard-period,
+.leaderboard-card-comp .leaderboard-stats {
+  color: var(--paper);
+}
+
+.leaderboard-card-topline {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.leaderboard-period {
+  color: #53645d;
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-align: right;
+}
+
+.leaderboard-name {
+  display: block;
+  margin: 11px 0 5px;
+  font-size: clamp(1.45rem, 3vw, 2.2rem);
+  letter-spacing: -0.07em;
+  line-height: 0.98;
+}
+
+.leaderboard-stats {
+  color: #53645d;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.leaderboard-footnote {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 15px;
+  padding-top: 12px;
+  color: #7b8881;
+  border-top: 1px solid #dbe1dc;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -800,6 +896,19 @@ select.control {
     align-items: start;
   }
 
+  .leaderboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .leaderboard-footnote {
+    display: block;
+  }
+
+  #nextCompetition {
+    display: block;
+    margin-top: 5px;
+  }
+
   .mode-pill {
     margin-top: 2px;
   }
@@ -823,7 +932,8 @@ select.control {
   .log-panel,
   .roster-panel,
   .chart-panel,
-  .recent-panel {
+  .recent-panel,
+  .leaderboard-panel {
     padding: 19px;
   }
 

@@ -4,6 +4,8 @@ A small attendance tracker for FTC build teams. Teammates choose their name, sav
 
 The app is intentionally framework-free: HTML and CSS for the interface, TypeScript for the browser behavior and Vercel API functions, and Neon Postgres for durable data.
 
+The team leaderboard ranks attendance by logged build-session days, with hours shown as supporting context. It shows the leader for the selected week and the leader since the day after the most recent completed San Diego FTC competition. Competition dates are maintained from the [San Diego FTC season calendar](https://www.sdftc.org/2026-27season.html), including the prior regional so the first current-season meet has a useful baseline.
+
 ## Vercel + Neon setup
 
 1. Import this folder into a Vercel project.

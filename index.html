@@ -108,6 +108,38 @@
             <span id="modePill" class="mode-pill">Connecting…</span>
           </div>
 
+          <section class="leaderboard-panel" aria-labelledby="leaderboard-title">
+            <div class="chart-heading leaderboard-heading">
+              <div>
+                <p class="eyebrow">Team leaderboard</p>
+                <h3 id="leaderboard-title">Who showed up?</h3>
+              </div>
+              <a id="competitionSource" class="chart-unit source-link" href="https://www.sdftc.org/2026-27season.html" target="_blank" rel="noreferrer">SDFTC comp dates ↗</a>
+            </div>
+            <div class="leaderboard-grid">
+              <article class="leaderboard-card leaderboard-card-week">
+                <div class="leaderboard-card-topline">
+                  <span class="stat-label">Most this week</span>
+                  <span id="weekLeaderPeriod" class="leaderboard-period">Loading…</span>
+                </div>
+                <strong id="weekLeaderNames" class="leaderboard-name">Loading…</strong>
+                <span id="weekLeaderStats" class="leaderboard-stats">Counting visits…</span>
+              </article>
+              <article class="leaderboard-card leaderboard-card-comp">
+                <div class="leaderboard-card-topline">
+                  <span class="stat-label">Most since last comp</span>
+                  <span id="sinceCompLeaderPeriod" class="leaderboard-period">Loading…</span>
+                </div>
+                <strong id="sinceCompLeaderNames" class="leaderboard-name">Loading…</strong>
+                <span id="sinceCompLeaderStats" class="leaderboard-stats">Counting visits…</span>
+              </article>
+            </div>
+            <div class="leaderboard-footnote">
+              <span id="competitionNote">Using the San Diego FTC competition calendar.</span>
+              <span id="nextCompetition">Loading next competition…</span>
+            </div>
+          </section>
+
           <div class="stats-grid" aria-label="Summary statistics">
             <article class="stat-card stat-card-lime">
               <span class="stat-label">Today</span>

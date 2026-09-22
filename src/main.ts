@@ -18,6 +18,25 @@ type WeeklyEntry = {
   isCurrent: boolean;
 };
 
+type LeaderboardEntry = {
+  id: number;
+  name: string;
+  visits: number;
+  hours: number;
+};
+
+type Competition = {
+  name: string;
+  startDate: string;
+  endDate: string;
+};
+
+type LeaderboardPeriod = {
+  startDate: string | null;
+  endDate: string;
+  leaders: LeaderboardEntry[];
+};
+
 type Dashboard = {
   member: Member;
   today: { date: string; hours: number };
@@ -26,6 +45,15 @@ type Dashboard = {
   daily: DailyEntry[];
   weekly: WeeklyEntry[];
   recent: Array<{ id: number; meetingDate: string; hours: number }>;
+  leaderboards: {
+    week: LeaderboardPeriod;
+    sinceLastCompetition: LeaderboardPeriod;
+  };
+  competition: {
+    sourceUrl: string;
+    last: Competition | null;
+    next: Competition | null;
+  };
   dataSource: "neon" | "demo";
 };
 
@@ -217,9 +245,53 @@ function renderDashboard(dashboard: Dashboard): void {
   getElement<HTMLElement>("todayCaption").textContent = dashboard.today.hours > 0 ? "Logged today" : "Nothing logged yet";
   getElement<HTMLElement>("weekCaption").textContent = `Since ${formatShortDate(dashboard.week.startDate)}`;
 
+  renderLeaderboards(dashboard);
   renderDailyChart(dashboard.daily);
   renderWeeklyChart(dashboard.weekly);
   renderRecent(dashboard.recent);
+}
+
+function renderLeaderboards(dashboard: Dashboard): void {
+  renderLeaderboardPeriod("week", dashboard.leaderboards.week);
+  renderLeaderboardPeriod("sinceComp", dashboard.leaderboards.sinceLastCompetition);
+
+  const sourceLink = getElement<HTMLAnchorElement>("competitionSource");
+  sourceLink.href = dashboard.competition.sourceUrl;
+
+  const note = getElement<HTMLElement>("competitionNote");
+  if (dashboard.competition.last) {
+    note.textContent = `Since ${formatCompetitionRange(dashboard.competition.last.startDate, dashboard.competition.last.endDate)} ${dashboard.competition.last.name.toLowerCase()} (competition day not counted).`;
+  } else {
+    note.textContent = "No completed San Diego FTC competition is on the calendar before this date.";
+  }
+
+  const nextCompetition = dashboard.competition.next;
+  const nextLabel = getElement<HTMLElement>("nextCompetition");
+  nextLabel.textContent = nextCompetition
+    ? `Next: ${nextCompetition.name} · ${formatCompetitionRange(nextCompetition.startDate, nextCompetition.endDate)}`
+    : "No upcoming competition on the published calendar";
+}
+
+function renderLeaderboardPeriod(prefix: "week" | "sinceComp", period: LeaderboardPeriod): void {
+  const names = getElement<HTMLElement>(`${prefix}LeaderNames`);
+  const stats = getElement<HTMLElement>(`${prefix}LeaderStats`);
+  const periodLabel = getElement<HTMLElement>(`${prefix}LeaderPeriod`);
+
+  periodLabel.textContent = period.startDate
+    ? formatDateRange(period.startDate, period.endDate)
+    : "All logged time";
+
+  if (!period.leaders.length) {
+    names.textContent = "No sessions yet";
+    stats.textContent = "Log a build session to start the race.";
+    return;
+  }
+
+  names.textContent = period.leaders.map((leader) => leader.name).join(" · ");
+  const visits = period.leaders[0].visits;
+  const visitLabel = `${visits} ${visits === 1 ? "visit" : "visits"}${period.leaders.length > 1 ? " each" : ""}`;
+  const hoursLabel = period.leaders.map((leader) => `${formatHours(leader.hours)} ${leader.name}`).join(" · ");
+  stats.textContent = `${visitLabel} · ${hoursLabel}`;
 }
 
 function renderDailyChart(entries: DailyEntry[]): void {
@@ -279,6 +351,14 @@ function renderEmptyDashboard(): void {
   });
   getElement<HTMLElement>("todayCaption").textContent = "Add a teammate to begin";
   getElement<HTMLElement>("weekCaption").textContent = "—";
+  getElement<HTMLElement>("weekLeaderNames").textContent = "Choose a teammate";
+  getElement<HTMLElement>("weekLeaderStats").textContent = "—";
+  getElement<HTMLElement>("weekLeaderPeriod").textContent = "—";
+  getElement<HTMLElement>("sinceCompLeaderNames").textContent = "Choose a teammate";
+  getElement<HTMLElement>("sinceCompLeaderStats").textContent = "—";
+  getElement<HTMLElement>("sinceCompLeaderPeriod").textContent = "—";
+  getElement<HTMLElement>("competitionNote").textContent = "—";
+  getElement<HTMLElement>("nextCompetition").textContent = "—";
   getElement<HTMLElement>("dailyChart").innerHTML = '<p class="empty-state">Add a teammate to see daily time.</p>';
   getElement<HTMLElement>("weeklyChart").innerHTML = '<p class="empty-state">Add a teammate to see weekly time.</p>';
   getElement<HTMLElement>("recentList").innerHTML = '<p class="empty-state">Your saved sessions will show here.</p>';
@@ -358,6 +438,10 @@ function formatShortDate(iso: string): string {
 
 function formatDateRange(start: string, end: string): string {
   return `${formatShortDate(start)} – ${formatShortDate(end)}`;
+}
+
+function formatCompetitionRange(start: string, end: string): string {
+  return start === end ? formatDate(start) : `${formatDate(start)} – ${formatDate(end)}`;
 }
 
 function dateFromIso(iso: string): Date {
